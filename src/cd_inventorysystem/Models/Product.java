@@ -5,129 +5,113 @@
  */
 package cd_inventorysystem.Models;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 
 /**
  *
  * @author caseydierking
  */
-public abstract class Part {
+public class Product {
     
-    private static int count = 0;
-
     
-    // Setup the Variables
-    SimpleStringProperty name;
+    //Declare the variables in a Product
     private static AtomicInteger nextID = new AtomicInteger(0);
-    private SimpleIntegerProperty partID;
+
+    private SimpleStringProperty name;
+    private SimpleIntegerProperty productID;
     private SimpleDoubleProperty price;
     private SimpleIntegerProperty inStock;
     private SimpleIntegerProperty min;
     private SimpleIntegerProperty max;
+    private ObservableList<Part> associatedParts;
 
     
-    //Initialize the variables
-    public Part(String name, double price, int inStock, int min, int max) {
+    
+    //Constructor for initializing the product
+  
+    
+    
+    public Product(String name, double price, int inStock, int min, int max) {
         this.name = new SimpleStringProperty(name);
-        this.partID = new SimpleIntegerProperty(nextID.incrementAndGet());
+        this.productID = new SimpleIntegerProperty(nextID.incrementAndGet());
         this.price = new SimpleDoubleProperty(price);
         this.inStock = new SimpleIntegerProperty(inStock);
         this.min = new SimpleIntegerProperty(min);
         this.max = new SimpleIntegerProperty(max);
-        
-        
-        
     }
 
-    /**
-     * @return the name
-     */
     public SimpleStringProperty getName() {
         return name;
     }
 
-    /**
-     * @param name the name to set
-     */
     public void setName(SimpleStringProperty name) {
         this.name = name;
     }
 
-    /**
-     * @return the partID
-     */
-    public SimpleIntegerProperty getPartID() {
-        return partID;
+    public SimpleIntegerProperty getProductID() {
+        return productID;
     }
 
-    /**
-     * @param partID the partID to set
-     */
-    public void setPartID(SimpleIntegerProperty partID) {
-        this.partID = partID;
+    public void setProductID(SimpleIntegerProperty productID) {
+        this.productID = productID;
     }
 
-    /**
-     * @return the price
-     */
     public SimpleDoubleProperty getPrice() {
         return price;
     }
 
-    /**
-     * @param price the price to set
-     */
     public void setPrice(SimpleDoubleProperty price) {
         this.price = price;
     }
 
-    /**
-     * @return the inStock
-     */
     public SimpleIntegerProperty getInStock() {
         return inStock;
     }
 
-    /**
-     * @param inStock the inStock to set
-     */
     public void setInStock(SimpleIntegerProperty inStock) {
         this.inStock = inStock;
     }
 
-    /**
-     * @return the min
-     */
     public SimpleIntegerProperty getMin() {
         return min;
     }
 
-    /**
-     * @param min the min to set
-     */
     public void setMin(SimpleIntegerProperty min) {
         this.min = min;
     }
 
-    /**
-     * @return the max
-     */
     public SimpleIntegerProperty getMax() {
         return max;
     }
 
-    /**
-     * @param max the max to set
-     */
     public void setMax(SimpleIntegerProperty max) {
         this.max = max;
     }
     
     
+    public void addAssociatedPart(Part p){
+        associatedParts.add(p);
+        
+    }
     
-            
+    public boolean removeAssociatedPart(Part p){
+        return associatedParts.remove(p);
+        
+    }
+    
+    public Part lookupAssociatedPart(int p){
+       return associatedParts.get(p);
+        
+    }
+    
+    
+    
+    
+    
     
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cd_inventorysystem.AddPartViewController">
+   <children>
+      <Pane layoutX="61.0" layoutY="117.0" prefHeight="267.0" prefWidth="391.0">
+         <children>
+            <VBox layoutX="30.0" prefHeight="267.0" prefWidth="108.0" spacing="25.0">
+               <children>
+                  <Label text="ID" />
+                  <Label text="Name" />
+                  <Label text="Inv" />
+                  <Label text="Price/Cost" />
+                  <Label text="Min" />
+                  <Label text="Max" />
+                  <Label fx:id="toggleLocationLabel" prefHeight="17.0" prefWidth="103.0" text="Company Name" />
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" layoutX="148.0" maxWidth="158.0" prefHeight="269.0" prefWidth="128.0" spacing="13.0">
+               <children>
+                  <Label alignment="TOP_CENTER" style="-fx-border-color: black; -fx-padding: 5px;" text="Auto Gen - Disabled" textAlignment="CENTER" />
+                  <TextField promptText="Part Name" />
+                  <TextField promptText="Inv" />
+                  <TextField promptText="Price/Cost" />
+                  <TextField maxWidth="138.0" minWidth="-Infinity" prefHeight="27.0" prefWidth="138.0" promptText="Min" />
+                  <TextField maxWidth="138.0" minWidth="-Infinity" prefHeight="27.0" prefWidth="138.0" promptText="Max" />
+                  <TextField prefHeight="27.0" prefWidth="58.0" promptText="Company Name" />
+               </children>
+            </VBox>
+            <VBox layoutX="277.0" layoutY="166.0" prefHeight="80.0" prefWidth="100.0" />
+         </children>
+      </Pane>
+      <Label layoutX="26.0" layoutY="21.0" text="Add Part">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Button layoutX="268.0" layoutY="427.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="90.0" text="Button" />
+      <Button layoutX="376.0" layoutY="427.0" mnemonicParsing="false" onAction="#cancelButtonPushed" prefHeight="31.0" prefWidth="90.0" text="Cancel" />
+      <RadioButton fx:id="inHouseButton" layoutX="201.0" layoutY="37.0" mnemonicParsing="false" onAction="#radioButtonChanged" text="Inhouse" />
+      <RadioButton fx:id="outsourcedButton" layoutX="327.0" layoutY="37.0" mnemonicParsing="false" onAction="#radioButtonChanged" text="Outsourced" />
+   </children>
+</AnchorPane>
