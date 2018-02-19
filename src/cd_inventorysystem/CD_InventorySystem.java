@@ -32,8 +32,8 @@ public class CD_InventorySystem extends Application {
         stage.show();
         
         Part samplePart = new Inhouse(0,"testpart",1,50,1,1);
-        Part anotherPart = new Inhouse(1,"testpart",1,50,1,1);
-        Part thirdPart = new Inhouse(1,"testpart",1,50,1,1);
+        Part anotherPart = new Inhouse(34,"testpart",1,50,1,1);
+        Part thirdPart = new Inhouse(55,"testpart",1,50,1,1);
 
         Inventory.getAllParts().add(samplePart);
         Inventory.getAllParts().add(anotherPart);

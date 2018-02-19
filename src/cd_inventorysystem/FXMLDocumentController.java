@@ -66,7 +66,7 @@ public class FXMLDocumentController implements Initializable {
      */
     
     public void savePart(){
-                Part newPart = new Inhouse(1,"testpart",1,50,1,1);
+        Part newPart = new Inhouse(1,"testpart",1,50,1,1);
 
     }
     
