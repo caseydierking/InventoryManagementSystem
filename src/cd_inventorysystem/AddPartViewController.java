@@ -118,6 +118,16 @@ public class AddPartViewController implements Initializable {
            Inventory.getAllParts().add(newPart);
            
            }
+           
+           
+           //Send the user back to the main page
+        Parent savedParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Scene addPartScene = new Scene(savedParent);
+
+        //Get Stage Information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(addPartScene);
+        window.show();
           
              // public Inhouse(int machineId, String name, double price, int inStock, int min, int max) {
 

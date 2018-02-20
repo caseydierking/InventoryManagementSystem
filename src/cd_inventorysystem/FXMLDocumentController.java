@@ -72,6 +72,24 @@ public class FXMLDocumentController implements Initializable {
         window.show();
     }
     
+    
+    /** 
+     * This code handles the logic for when the "add Product" button is pushed.
+     *
+     * @param event
+     * @throws java.io.IOException
+     */
+    
+    public void  addProductButtonPushed(ActionEvent event) throws IOException{
+        Parent addProductViewParent = FXMLLoader.load(getClass().getResource("AddProductView.fxml"));
+        Scene addProductScene = new Scene(addProductViewParent);
+        
+        //Get Stage Information
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        window.setScene(addProductScene);
+        window.show();
+    }
+    
   
     public void  modifyPartButtonPushed(ActionEvent event) throws IOException{
         FXMLLoader loader = new FXMLLoader();

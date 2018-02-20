@@ -53,9 +53,10 @@ public class Inventory {
   }
   
   
+  
   //Product Methods
   
-  public void addProduct(Product p){
+  public static void addProduct(Product p){
       allProducts.add(p);
   }
   

@@ -10,6 +10,7 @@ import cd_inventorysystem.Models.Inventory;
 import cd_inventorysystem.Models.Outsourced;
 import cd_inventorysystem.Models.Part;
 import cd_inventorysystem.Models.Product;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -44,10 +45,18 @@ public class CD_InventorySystem extends Application {
         
 
        
+         
+         
+        ArrayList<Part> sampleProductParts = new ArrayList<>();
+        samplePart = Inventory.getAllParts().get(1);
+        sampleProductParts.add(samplePart);
+        Product sampleProduct = new Product("ProductA",50.0,1,1,1,sampleProductParts);
         
         
-        Product sampleProduct = new Product("ProductA",50.0,1,1,1);
-        Product anotherProduct = new Product("Productb",50.0,1,1,1);
+        ArrayList<Part> anotherProductParts = new ArrayList<>();
+        anotherPart = Inventory.getAllParts().get(2);
+        anotherProductParts.add(anotherPart);
+        Product anotherProduct = new Product("Productb",50.0,1,1,1,anotherProductParts);
 
         Inventory.getAllProducts().add(sampleProduct);
         Inventory.getAllProducts().add(anotherProduct);
