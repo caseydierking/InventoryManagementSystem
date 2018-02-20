@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -21,8 +22,8 @@ public abstract class Part {
     
     // Setup the Variables
     SimpleStringProperty name;
-    private static AtomicInteger nextID = new AtomicInteger(0);
-    private SimpleIntegerProperty partID;
+    public static AtomicInteger nextID = new AtomicInteger(0);
+    SimpleIntegerProperty partID;
     private SimpleDoubleProperty price;
     private SimpleIntegerProperty inStock;
     private SimpleIntegerProperty min;
@@ -52,8 +53,8 @@ public abstract class Part {
     /**
      * @param name the name to set
      */
-    public void setName(SimpleStringProperty name) {
-        this.name = name;
+    public void setName(String name) {
+        this.name = new SimpleStringProperty(name);
     }
 
     /**
@@ -62,6 +63,8 @@ public abstract class Part {
     public SimpleIntegerProperty getPartID() {
         return partID;
     }
+    
+   
 
     /**
      * @param partID the partID to set
@@ -80,8 +83,8 @@ public abstract class Part {
     /**
      * @param price the price to set
      */
-    public void setPrice(SimpleDoubleProperty price) {
-        this.price = price;
+    public void setPrice(double price) {
+        this.price = new SimpleDoubleProperty(price);
     }
 
     /**
@@ -94,8 +97,8 @@ public abstract class Part {
     /**
      * @param inStock the inStock to set
      */
-    public void setInStock(SimpleIntegerProperty inStock) {
-        this.inStock = inStock;
+    public void setInStock(int inStock) {
+        this.inStock = new SimpleIntegerProperty(inStock);
     }
 
     /**
@@ -108,8 +111,8 @@ public abstract class Part {
     /**
      * @param min the min to set
      */
-    public void setMin(SimpleIntegerProperty min) {
-        this.min = min;
+    public void setMin(int min) {
+        this.min = new SimpleIntegerProperty(min);
     }
 
     /**
@@ -122,8 +125,8 @@ public abstract class Part {
     /**
      * @param max the max to set
      */
-    public void setMax(SimpleIntegerProperty max) {
-        this.max = max;
+    public void setMax(int max) {
+        this.max = new SimpleIntegerProperty(max);
     }
     
     

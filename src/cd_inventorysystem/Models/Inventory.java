@@ -35,7 +35,7 @@ public class Inventory {
         allParts.add(p);
     }
     
-    public void removePart(Part p){
+    public static void removePart(Part p){
         allParts.remove(p);
     }
     

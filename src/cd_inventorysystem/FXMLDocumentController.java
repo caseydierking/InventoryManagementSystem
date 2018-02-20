@@ -7,15 +7,16 @@ package cd_inventorysystem;
 
 
 import cd_inventorysystem.Models.Inventory;
-import cd_inventorysystem.Models.Inhouse;
-import cd_inventorysystem.Models.Outsourced;
+import static cd_inventorysystem.Models.Inventory.removePart;
 import cd_inventorysystem.Models.Part;
 import cd_inventorysystem.Models.Product;
-
-
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,12 +24,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
 
 /**
  *
@@ -36,7 +38,6 @@ import javafx.stage.Stage;
  */
 public class FXMLDocumentController implements Initializable {
     
-    @FXML private Label label;
     @FXML private TableView<Part> partTable;
     @FXML private TableColumn<Part, Integer> partIdColumn;
     @FXML private TableColumn<Part, String> partNameColumn;
@@ -48,33 +49,17 @@ public class FXMLDocumentController implements Initializable {
     @FXML private TableColumn<Product, String> productNameColumn;
     @FXML private TableColumn<Product, Integer> productInStockColumn;
     @FXML private TableColumn<Product, Double> productPriceColumn;
+    @FXML private TextField searchTextField;
+    private int sourceIndex;
     
     
-    
-    
-    
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
-    
-    
-    
-    /**
-     * This method allows the user to save a new Part
-     */
-    
-    public void savePart(){
-        Part newPart = new Inhouse(1,"testpart",1,50,1,1);
-
-    }
-    
+   
     
     
     /** 
      * This code handles the logic for when the "add Part" button is pushed.
      *
+     * @param event
      */
     
     public void  addPartButtonPushed(ActionEvent event) throws IOException{
@@ -87,15 +72,46 @@ public class FXMLDocumentController implements Initializable {
         window.show();
     }
     
+  
     public void  modifyPartButtonPushed(ActionEvent event) throws IOException{
-        Parent modifyPartViewParent = FXMLLoader.load(getClass().getResource("ModifyPartView.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("ModifyPartView.fxml"));
+        Parent modifyPartViewParent = loader.load();
         Scene modifyPartScene = new Scene(modifyPartViewParent);
         
+        ModifyPartViewController controller = loader.getController();
+        controller.initData(partTable.getSelectionModel().getSelectedItem());
+
         //Get Stage Information
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         window.setScene(modifyPartScene);
         window.show();
     }
+    
+    
+    
+    
+    public void deletePartButtonPushed() {
+        //Grab the selected Part
+        Part part = partTable.getSelectionModel().getSelectedItem();
+        
+        //Test to see if the part is valid, if so create an alert confirming they want to delete the part.
+        if (part != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm Deletion");
+            alert.setHeaderText("Are you sure you want to delete " + part.getName().get() + "?");
+            Optional<ButtonType> result = alert.showAndWait();
+            
+            //Delete the part if yes, if no, close the box.
+            if (result.get() == ButtonType.OK) {
+               removePart(part);
+            } else {
+                alert.close();
+            }
+        }
+     
+    }
+    
     
     
     @Override
@@ -118,6 +134,44 @@ public class FXMLDocumentController implements Initializable {
         partTable.setItems(Inventory.getAllParts());
         productTable.setItems(Inventory.getAllProducts());
 
+        
+        
+        
+        // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+        FilteredList<Part> filteredData = new FilteredList<>(Inventory.getAllParts(), p -> true);
+
+       // 2. Set the filter Predicate whenever the filter changes.
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(part -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (part.getName().get().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches  name.
+                } else if (part.getPartID().toString().contains(lowerCaseFilter)) {
+                    return true; // Filter matches id
+                }
+                return false; // Does not match.
+            });
+        });
+
+       
+         // 3. Wrap the FilteredList in a SortedList. 
+        SortedList<Part> sortedData = new SortedList<>(filteredData);
+    
+    
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(partTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        partTable.setItems(sortedData);
+        
+       
         
         
         

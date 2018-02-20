@@ -60,11 +60,6 @@ public class AddPartViewController implements Initializable {
 
     
     
-            
-          
-    
-    
-    
     /**
      * 
      */
@@ -90,6 +85,8 @@ public class AddPartViewController implements Initializable {
      /** 
      * This code handles the logic for when the "Save" button is pushed.
      *
+     * @param event
+     * @throws java.io.IOException
      */
     
     public void  saveButtonPushed(ActionEvent event) throws IOException{
@@ -105,6 +102,8 @@ public class AddPartViewController implements Initializable {
             //int tempPrice = (price.getText());
            Part newPart = new Inhouse(tempMachineId,tempPartName,tempPrice,tempInstock,tempMin,tempMax);
            Inventory.getAllParts().add(newPart);
+           
+           
            } else {
                
             String tempPartName = nameOutsourced.getText();

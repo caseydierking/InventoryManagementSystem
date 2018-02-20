@@ -7,6 +7,7 @@ package cd_inventorysystem;
 
 import cd_inventorysystem.Models.Inhouse;
 import cd_inventorysystem.Models.Inventory;
+import cd_inventorysystem.Models.Outsourced;
 import cd_inventorysystem.Models.Part;
 import cd_inventorysystem.Models.Product;
 import javafx.application.Application;
@@ -34,10 +35,13 @@ public class CD_InventorySystem extends Application {
         Part samplePart = new Inhouse(0,"testpart",1,50,1,1);
         Part anotherPart = new Inhouse(34,"testpart",1,50,1,1);
         Part thirdPart = new Inhouse(55,"testpart",1,50,1,1);
+        Part fourthPart = new Outsourced("dal","outsourcedpart",1,50,1,1);
 
         Inventory.getAllParts().add(samplePart);
         Inventory.getAllParts().add(anotherPart);
         Inventory.getAllParts().add(thirdPart);
+         Inventory.getAllParts().add(fourthPart);
+        
 
        
         

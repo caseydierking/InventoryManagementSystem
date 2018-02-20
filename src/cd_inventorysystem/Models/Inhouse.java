@@ -6,6 +6,7 @@
 package cd_inventorysystem.Models;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
@@ -20,7 +21,9 @@ public class Inhouse extends Part {
         super(name, price, inStock, min, max);
         this.machineId = new SimpleIntegerProperty(machineId);
     }
-
+    
+    
+    
     /**
      * @return the machineId
      */
@@ -31,8 +34,8 @@ public class Inhouse extends Part {
     /**
      * @param machineId the machineId to set
      */
-    public void setMachineId(SimpleIntegerProperty machineId) {
-        this.machineId = machineId;
+    public void setMachineId(int machineId) {
+        this.machineId = new SimpleIntegerProperty(machineId);
     }
 
     
