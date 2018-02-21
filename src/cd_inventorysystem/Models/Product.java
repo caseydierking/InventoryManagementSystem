@@ -128,6 +128,10 @@ public class Product {
         this.associatedParts = associatedParts;    
     }
 
+    public ArrayList<Part> getAssociatedParts() {
+        return associatedParts;
+    }
+
    
     
     

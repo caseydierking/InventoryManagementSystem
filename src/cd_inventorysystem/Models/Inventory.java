@@ -65,6 +65,10 @@ public class Inventory {
       return false;
   }
   
+  public static void removeProduct(Product p){
+      allProducts.remove(p);
+  }
+  
   
   public Product lookupProduct(int p){
        int productID = allProducts.indexOf(p);
