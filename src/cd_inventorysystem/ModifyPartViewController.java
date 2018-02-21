@@ -59,6 +59,8 @@ public class ModifyPartViewController implements Initializable {
     @FXML
     private Label companyNameLabel;
     @FXML
+    private Label partIDLabel;
+    @FXML
     private TextField companyName;
    
     private boolean isInhouse;
@@ -77,6 +79,7 @@ public class ModifyPartViewController implements Initializable {
         selectedPart = p;
 
         name.setText(selectedPart.getName().getValue());
+        partIDLabel.setText(selectedPart.getPartID().getValue().toString());
         price.setText(selectedPart.getPrice().getValue().toString());
         inStock.setText(selectedPart.getInStock().getValue().toString());
         min.setText(selectedPart.getMin().getValue().toString());
@@ -130,9 +133,7 @@ public class ModifyPartViewController implements Initializable {
             int tempMachineId = Integer.parseInt(machineId.getText().trim());
 
             
-           //Part modifiedPart = new Inhouse(tempMachineId,tempPartName,tempPrice,tempInstock,tempMin,tempMax);
-           //Inventory.getAllParts().add(modifiedPart);
-          // Inventory.removePart(selectedPart);
+           
             //Update the part
             TempIn.setName(tempPartName);
             TempIn.setPrice(tempPrice);

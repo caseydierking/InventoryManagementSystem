@@ -12,7 +12,6 @@ import cd_inventorysystem.Models.Part;
 import cd_inventorysystem.Models.Product;
 import java.util.ArrayList;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

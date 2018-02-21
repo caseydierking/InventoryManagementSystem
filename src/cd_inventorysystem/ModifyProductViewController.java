@@ -26,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -53,6 +54,7 @@ public class ModifyProductViewController implements Initializable {
     
     
     @FXML private TextField productName;
+    @FXML private Label productIDLabel;
     @FXML private TextField productPrice;
     @FXML private TextField productInStock;
     @FXML private TextField productMin;
@@ -69,6 +71,7 @@ public class ModifyProductViewController implements Initializable {
         selectedProduct = p;
 
         productName.setText(selectedProduct.getName().getValue());
+        productIDLabel.setText(selectedProduct.getProductID().getValue().toString());
         productPrice.setText(selectedProduct.getPrice().getValue().toString());
         productInStock.setText(selectedProduct.getInStock().getValue().toString());
         productMin.setText(selectedProduct.getMin().getValue().toString());

@@ -31,7 +31,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" layoutX="148.0" maxWidth="158.0" prefHeight="269.0" prefWidth="128.0" spacing="13.0">
                <children>
-                  <Label alignment="TOP_CENTER" style="-fx-border-color: black; -fx-padding: 5px;" text="Auto Gen - Disabled" textAlignment="CENTER" />
+                  <Label fx:id="partIDLabel" alignment="TOP_CENTER" style="-fx-border-color: black; -fx-padding: 5px;" text="Auto Gen - Disabled" textAlignment="CENTER" />
                   <TextField fx:id="name" promptText="Part Name" />
                   <TextField fx:id="inStock" promptText="Inv" />
                   <TextField fx:id="price" promptText="Price/Cost" />

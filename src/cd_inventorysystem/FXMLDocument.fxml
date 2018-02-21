@@ -51,10 +51,10 @@
             <TextField fx:id="searchProductTextField" layoutX="305.0" layoutY="19.0" />
             <TableView fx:id="productTable" layoutX="24.0" layoutY="69.0" prefHeight="205.0" prefWidth="444.0">
                <columns>
-                  <TableColumn fx:id="productIDColumn" prefWidth="96.0" text="productID" />
-                  <TableColumn fx:id="productNameColumn" prefWidth="118.0" text="productName" />
-                  <TableColumn fx:id="productInStockColumn" prefWidth="123.0" text="inStock" />
-                  <TableColumn fx:id="productPriceColumn" prefWidth="106.0" text="price" />
+                  <TableColumn fx:id="productIDColumn" prefWidth="96.0" text="Product ID" />
+                  <TableColumn fx:id="productNameColumn" prefWidth="118.0" text="Product Name" />
+                  <TableColumn fx:id="productInStockColumn" prefWidth="123.0" text="Inventory Level" />
+                  <TableColumn fx:id="productPriceColumn" prefWidth="106.0" text="Price" />
                </columns>
             </TableView>
             <Button layoutX="218.0" layoutY="287.0" mnemonicParsing="false" onAction="#addProductButtonPushed" prefHeight="27.0" prefWidth="75.0" text="Add" />

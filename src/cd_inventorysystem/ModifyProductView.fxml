@@ -27,7 +27,7 @@
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="60.0" prefWidth="179.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="40.0" prefWidth="164.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="Auto Gen - Disabled" />
+                        <Label fx:id="productIDLabel" alignment="CENTER" prefHeight="40.0" prefWidth="164.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="Auto Gen - Disabled" />
                      </children>
                   </VBox>
                </children>
