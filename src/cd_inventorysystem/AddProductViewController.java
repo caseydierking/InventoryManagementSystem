@@ -5,10 +5,7 @@
  */
 package cd_inventorysystem;
 
-import cd_inventorysystem.Models.Inhouse;
 import cd_inventorysystem.Models.Inventory;
-import static cd_inventorysystem.Models.Inventory.removePart;
-import cd_inventorysystem.Models.Outsourced;
 import cd_inventorysystem.Models.Part;
 import cd_inventorysystem.Models.Product;
 import java.io.IOException;
@@ -18,6 +15,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -61,6 +60,7 @@ public class AddProductViewController implements Initializable {
     @FXML private TextField productInStock;
     @FXML private TextField productMin;
     @FXML private TextField productMax;
+    @FXML private TextField searchTextField;
     
     private ObservableList<Part> currentParts = FXCollections.observableArrayList();
 
@@ -132,6 +132,15 @@ public class AddProductViewController implements Initializable {
         }
     }
     
+    public void  cancelButtonPushed(ActionEvent event) throws IOException{
+        Parent cancelParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Scene addPartScene = new Scene(cancelParent);
+        
+        //Get Stage Information
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        window.setScene(addPartScene);
+        window.show();
+    }
     
     
    
@@ -155,6 +164,47 @@ public class AddProductViewController implements Initializable {
         
         
         partTable.setItems(Inventory.getAllParts());
-    }    
+        
+        enablePartSearch();
+        
+    }  
+    
+    public void enablePartSearch(){
+       
+       // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+        FilteredList<Part> filteredData = new FilteredList<>(Inventory.getAllParts(), p -> true);
+
+       // 2. Set the filter Predicate whenever the filter changes.
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(part -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (part.getName().get().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches  name.
+                } else if (part.getPartID().toString().contains(lowerCaseFilter)) {
+                    return true; // Filter matches id
+                }
+                return false; // Does not match.
+            });
+        });
+
+       
+         // 3. Wrap the FilteredList in a SortedList. 
+        SortedList<Part> sortedData = new SortedList<>(filteredData);
+    
+    
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(partTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        partTable.setItems(sortedData);
+        
+    }
     
 }

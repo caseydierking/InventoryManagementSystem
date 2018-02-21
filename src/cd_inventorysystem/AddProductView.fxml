@@ -130,11 +130,11 @@
         </columns>
       </TableView>
       <Button layoutX="823.0" layoutY="46.0" mnemonicParsing="false" text="Search" />
-      <TextField layoutX="895.0" layoutY="46.0" />
+      <TextField fx:id="searchTextField" layoutX="895.0" layoutY="46.0" />
       <Button layoutX="967.0" layoutY="267.0" mnemonicParsing="false" onAction="#addPartToAssociatedParts" prefHeight="40.0" prefWidth="95.0" text="Add" />
       <Button layoutX="967.0" layoutY="527.0" mnemonicParsing="false" onAction="#deletePartFromTableview" prefHeight="40.0" prefWidth="95.0" text="Delete" />
       <Button layoutX="854.0" layoutY="593.0" mnemonicParsing="false" onAction="#saveProductButtonPushed" prefHeight="40.0" prefWidth="95.0" text="Save" />
-      <Button layoutX="967.0" layoutY="593.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="95.0" text="Cancel" />
+      <Button layoutX="967.0" layoutY="593.0" mnemonicParsing="false" onAction="#cancelButtonPushed" prefHeight="40.0" prefWidth="95.0" text="Cancel" />
       <TableView fx:id="associatedPartsTable" layoutX="538.0" layoutY="350.0" prefHeight="164.0" prefWidth="524.0">
          <columns>
             <TableColumn fx:id="associatedPartsIDColumn" prefWidth="75.0" text="Part ID" />

@@ -8,6 +8,7 @@ package cd_inventorysystem;
 
 import cd_inventorysystem.Models.Inventory;
 import static cd_inventorysystem.Models.Inventory.removePart;
+import static cd_inventorysystem.Models.Inventory.removeProduct;
 import cd_inventorysystem.Models.Part;
 import cd_inventorysystem.Models.Product;
 import java.io.IOException;
@@ -49,7 +50,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML private TableColumn<Product, String> productNameColumn;
     @FXML private TableColumn<Product, Integer> productInStockColumn;
     @FXML private TableColumn<Product, Double> productPriceColumn;
-    @FXML private TextField searchTextField;
+    @FXML protected TextField searchTextField;
+    @FXML protected TextField searchProductTextField;
     private int sourceIndex;
     
     
@@ -106,6 +108,21 @@ public class FXMLDocumentController implements Initializable {
         window.show();
     }
     
+    public void  modifyProductButtonPushed(ActionEvent event) throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("ModifyProductView.fxml"));
+        Parent modifyProductViewParent = loader.load();
+        Scene modifyProductScene = new Scene(modifyProductViewParent);
+        
+        ModifyProductViewController productController = loader.getController();
+        productController.initProductData(productTable.getSelectionModel().getSelectedItem());
+
+        //Get Stage Information
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        window.setScene(modifyProductScene);
+        window.show();
+    }
+    
     
     
     
@@ -131,6 +148,27 @@ public class FXMLDocumentController implements Initializable {
     }
     
     
+    public void deleteProductButtonPushed() {
+        //Grab the selected Part
+        Product product = productTable.getSelectionModel().getSelectedItem();
+        
+        //Test to see if the part is valid, if so create an alert confirming they want to delete the part.
+        if (product != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm Deletion");
+            alert.setHeaderText("Are you sure you want to delete " + product.getName().get() + "?");
+            Optional<ButtonType> result = alert.showAndWait();
+            
+            //Delete the part if yes, if no, close the box.
+            if (result.get() == ButtonType.OK) {
+               removeProduct(product);
+            } else {
+                alert.close();
+            }
+        }
+     
+    }
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -154,8 +192,19 @@ public class FXMLDocumentController implements Initializable {
 
         
         
+        enablePartSearch();
+        enableProductSearch();
         
-        // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+       
+        
+        
+        
+    }    
+    
+    
+   public void enablePartSearch(){
+       
+       // 1. Wrap the ObservableList in a FilteredList (initially display all data).
         FilteredList<Part> filteredData = new FilteredList<>(Inventory.getAllParts(), p -> true);
 
        // 2. Set the filter Predicate whenever the filter changes.
@@ -189,11 +238,45 @@ public class FXMLDocumentController implements Initializable {
         // 5. Add sorted (and filtered) data to the table.
         partTable.setItems(sortedData);
         
+    }
+   
+   
+   
+   public void enableProductSearch(){
+       // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+        FilteredList<Product> filteredData = new FilteredList<>(Inventory.getAllProducts(), p -> true);
+
+       // 2. Set the filter Predicate whenever the filter changes.
+        searchProductTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(part -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (part.getName().get().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches  name.
+                } else if (part.getProductID().toString().contains(lowerCaseFilter)) {
+                    return true; // Filter matches id
+                }
+                return false; // Does not match.
+            });
+        });
+
        
-        
-        
-        
-    }    
+         // 3. Wrap the FilteredList in a SortedList. 
+        SortedList<Product> sortedData = new SortedList<>(filteredData);
+    
+    
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(productTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        productTable.setItems(sortedData);
+   }
     
     
 }

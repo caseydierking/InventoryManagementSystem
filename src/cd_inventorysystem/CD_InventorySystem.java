@@ -33,10 +33,10 @@ public class CD_InventorySystem extends Application {
         stage.setScene(scene);
         stage.show();
         
-        Part samplePart = new Inhouse(0,"testpart",1,50,1,1);
-        Part anotherPart = new Inhouse(34,"testpart",1,50,1,1);
-        Part thirdPart = new Inhouse(55,"testpart",1,50,1,1);
-        Part fourthPart = new Outsourced("dal","outsourcedpart",1,50,1,1);
+        Part samplePart = new Inhouse(0,"Wheel",1,50,1,1);
+        Part anotherPart = new Inhouse(34,"SteeringWheel",1,50,1,1);
+        Part thirdPart = new Inhouse(55,"Door",1,50,1,1);
+        Part fourthPart = new Outsourced("CompanyInc","Paint",1,50,1,1);
 
         Inventory.getAllParts().add(samplePart);
         Inventory.getAllParts().add(anotherPart);
@@ -50,13 +50,13 @@ public class CD_InventorySystem extends Application {
         ArrayList<Part> sampleProductParts = new ArrayList<>();
         samplePart = Inventory.getAllParts().get(1);
         sampleProductParts.add(samplePart);
-        Product sampleProduct = new Product("ProductA",50.0,1,1,1,sampleProductParts);
+        Product sampleProduct = new Product("Car",50.0,1,1,1,sampleProductParts);
         
         
         ArrayList<Part> anotherProductParts = new ArrayList<>();
         anotherPart = Inventory.getAllParts().get(2);
         anotherProductParts.add(anotherPart);
-        Product anotherProduct = new Product("Productb",50.0,1,1,1,anotherProductParts);
+        Product anotherProduct = new Product("Truck",50.0,1,1,1,anotherProductParts);
 
         Inventory.getAllProducts().add(sampleProduct);
         Inventory.getAllProducts().add(anotherProduct);
@@ -69,7 +69,13 @@ public class CD_InventorySystem extends Application {
         launch(args);
         
         
+        
+        
+        
 
     }
+    
+    
+    
     
 }
