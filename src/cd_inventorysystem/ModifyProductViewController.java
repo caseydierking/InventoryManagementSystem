@@ -61,6 +61,7 @@ public class ModifyProductViewController implements Initializable {
     @FXML private TextField productMax;
     @FXML private TextField searchTextField;
     private ObservableList<Part> currentParts = FXCollections.observableArrayList();
+    private String exceptionMessage = new String();
 
     @FXML
     private Product selectedProduct;
@@ -97,37 +98,75 @@ public class ModifyProductViewController implements Initializable {
     public void  saveModifiedProductButtonPushed(ActionEvent event) throws IOException{
             //Create a new produc tobject and set variables to the text the user inputs
             Product newProduct = new Product();
-            String tempProductName = productName.getText();
-            double tempPrice = Double.parseDouble(productPrice.getText());
-            int tempInstock = Integer.parseInt(productInStock.getText());
-            int tempMin = Integer.parseInt(productMin.getText());
-            int tempMax = Integer.parseInt(productMax.getText());
-         
-            //Set values for the product
-            newProduct.setName(tempProductName);
-            newProduct.setPrice(tempPrice);
-            newProduct.setInStock(tempInstock);
-            newProduct.setMin(tempMin);
-            newProduct.setMax(tempMax);
+           String tempProductName = productName.getText();
+            String tempPrice = productPrice.getText();
+            String tempInstock = productInStock.getText();
+            String tempMin = productMin.getText();
+            String tempMax = productMax.getText();
             
-            //Create a new Array list and get parts from the associatedParts table
-            ArrayList<Part> parts = new ArrayList<>();
-            parts.addAll(associatedPartsTable.getItems());
-            newProduct.addAssociatedParts(parts);
+            try {
+                exceptionMessage = Product.isProductValid(tempProductName,Double.parseDouble(tempPrice),Integer.parseInt(tempInstock),Integer.parseInt(tempMin), Integer.parseInt(tempMax), exceptionMessage);
+                if (exceptionMessage.length() > 0) {
+                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                     alert.setTitle("Error Adding Product");
+                     alert.setHeaderText("Error");
+                     alert.setContentText(exceptionMessage);
+                     alert.showAndWait();
+                     exceptionMessage = "";
+            } else {
+                String ProductName = productName.getText();
+                double price = Double.parseDouble(productPrice.getText());
+                int inStock = Integer.parseInt(productInStock.getText());
+                int min = Integer.parseInt(productMin.getText());
+                int max = Integer.parseInt(productMax.getText());
+                
+                   //Set values for the product
+                   newProduct.setName(ProductName);
+                   newProduct.setPrice(price);
+                   newProduct.setInStock(inStock);
+                   newProduct.setMin(min);
+                   newProduct.setMax(max);
+            
+                   //Create a new Array list and get parts from the associatedParts table
+                  ArrayList<Part> parts = new ArrayList<>();
+                  parts.addAll(associatedPartsTable.getItems());
+                  newProduct.addAssociatedParts(parts);
 
-            //save Product to Memory
-            Inventory.addProduct(newProduct);
-            Inventory.removeProduct(selectedProduct);
-            
-            
-             //Send the user back to the main page
-        Parent savedParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        Scene addPartScene = new Scene(savedParent);
+                     if(newProduct.getAssociatedParts().size() >= 1){
+                         
+                        //save Product to Memory and delete the old product
+                        Inventory.addProduct(newProduct);
+                        Inventory.removeProduct(selectedProduct);
+                        
+                         //Send the user back to the main page
+                        Parent savedParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+                         Scene addPartScene = new Scene(savedParent);
 
-        //Get Stage Information
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(addPartScene);
-        window.show();
+                         //Get Stage Information
+                         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                         window.setScene(addPartScene);
+                         window.show();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                     alert.setTitle("Error Adding Product");
+                     alert.setHeaderText("Error");
+                     alert.setContentText("You can't add a product without a part!");
+                     alert.showAndWait();
+                     
+            }
+    
+               
+               
+            
+        }
+            } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("There was an Error adding a Part.");
+            alert.setHeaderText("Error");
+            alert.setContentText("The form contains blank fields. Please correct and try again.");
+            alert.showAndWait();
+        }
+    
             
     }
     
