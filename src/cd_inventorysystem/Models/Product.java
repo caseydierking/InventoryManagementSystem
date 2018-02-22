@@ -133,7 +133,25 @@ public class Product {
     }
 
    
-    
+    public static String isProductValid(String name, double price, int inStock, int min, int max, String errorMessage) {
+        if (name == null) {
+            errorMessage += ("Please check the Part Name Field.\n");
+        }
+        if (price < 1) {
+            errorMessage += ("The price must be greater than 0.\n");
+        }
+        
+        if (min > max) {
+            errorMessage += ("Inventory Min must be less than Max.\n");
+        }
+        if (max < min) {
+            errorMessage += ("Inventory Max must be greater than Min\n");
+        }
+        if (inStock < min || inStock > max) {
+            errorMessage += ("Part inventory must be between MIN and MAX values.\n");
+        }
+        return errorMessage;
+    }
     
     
     
