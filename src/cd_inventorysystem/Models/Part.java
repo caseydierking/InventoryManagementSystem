@@ -16,10 +16,7 @@ import javafx.beans.property.SimpleStringProperty;
  * @author caseydierking
  */
 public abstract class Part {
-    
-    private static int count = 0;
 
-    
     // Setup the Variables
     SimpleStringProperty name;
     public static AtomicInteger nextID = new AtomicInteger(0);
@@ -29,7 +26,6 @@ public abstract class Part {
     private SimpleIntegerProperty min;
     private SimpleIntegerProperty max;
 
-    
     //Initialize the variables
     public Part(String name, double price, int inStock, int min, int max) {
         this.name = new SimpleStringProperty(name);
@@ -38,9 +34,7 @@ public abstract class Part {
         this.inStock = new SimpleIntegerProperty(inStock);
         this.min = new SimpleIntegerProperty(min);
         this.max = new SimpleIntegerProperty(max);
-        
-        
-        
+
     }
 
     /**
@@ -63,8 +57,6 @@ public abstract class Part {
     public SimpleIntegerProperty getPartID() {
         return partID;
     }
-    
-   
 
     /**
      * @param partID the partID to set
@@ -128,10 +120,7 @@ public abstract class Part {
     public void setMax(int max) {
         this.max = new SimpleIntegerProperty(max);
     }
-    
-    
 
-    
     public static String isPartValid(String name, double price, int inStock, int min, int max, String errorMessage) {
         if (name == null) {
             errorMessage += ("Please check the Part Name Field.\n");
@@ -139,7 +128,7 @@ public abstract class Part {
         if (price < 1) {
             errorMessage += ("The price must be greater than 0.\n");
         }
-        
+
         if (min > max) {
             errorMessage += ("Inventory Min must be less than Max.\n");
         }
@@ -151,7 +140,5 @@ public abstract class Part {
         }
         return errorMessage;
     }
-    
-            
-    
+
 }

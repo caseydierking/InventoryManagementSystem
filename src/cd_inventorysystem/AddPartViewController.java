@@ -82,7 +82,7 @@ public class AddPartViewController implements Initializable {
             alert.setHeaderText("Are you sure you want to cancel?");
             Optional<ButtonType> result = alert.showAndWait();
             
-            //Delete the part if yes, if no, close the box.
+            
             if (result.get() == ButtonType.OK) {
                 Parent cancelParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
                 Scene addPartScene = new Scene(cancelParent);
@@ -116,7 +116,7 @@ public class AddPartViewController implements Initializable {
         String partMachineId = machineId.getText();
         String partCompanyName = machineId.getText();
         
-        
+            //Exception Handling for adding a new part and then if meets criteria, it adds its.
             try {
                 exceptionMessage = Part.isPartValid(partName,Double.parseDouble(partPrice),Integer.parseInt(partInstock),Integer.parseInt(partMin), Integer.parseInt(partMax), exceptionMessage);
                 if (exceptionMessage.length() > 0) {

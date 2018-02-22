@@ -86,78 +86,73 @@ public class AddProductViewController implements Initializable {
         String tempMin = productMin.getText();
         String tempMax = productMax.getText();
 
-        
         //Set up exceptions to test if the product is valid
         try {
-                exceptionMessage = Product.isProductValid(tempProductName,Double.parseDouble(tempPrice),Integer.parseInt(tempInstock),Integer.parseInt(tempMin), Integer.parseInt(tempMax), exceptionMessage);
-                if (exceptionMessage.length() > 0) {
-                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                     alert.setTitle("Error Adding Product");
-                     alert.setHeaderText("Error");
-                     alert.setContentText(exceptionMessage);
-                     alert.showAndWait();
-                     exceptionMessage = "";
+            exceptionMessage = Product.isProductValid(tempProductName, Double.parseDouble(tempPrice), Integer.parseInt(tempInstock), Integer.parseInt(tempMin), Integer.parseInt(tempMax), exceptionMessage);
+            if (exceptionMessage.length() > 0) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error Adding Product");
+                alert.setHeaderText("Error");
+                alert.setContentText(exceptionMessage);
+                alert.showAndWait();
+                exceptionMessage = "";
             } else {
                 String ProductName = productName.getText();
                 double price = Double.parseDouble(productPrice.getText());
                 int inStock = Integer.parseInt(productInStock.getText());
                 int min = Integer.parseInt(productMin.getText());
                 int max = Integer.parseInt(productMax.getText());
-                
-                   //Set values for the product
-                   newProduct.setName(ProductName);
-                   newProduct.setPrice(price);
-                   newProduct.setInStock(inStock);
-                   newProduct.setMin(min);
-                   newProduct.setMax(max);
-            
-                   //Create a new Array list and get parts from the associatedParts table
-                  ArrayList<Part> parts = new ArrayList<>();
-                  parts.addAll(associatedPartsTable.getItems());
-                  newProduct.addAssociatedParts(parts);
 
-                     if(newProduct.getAssociatedParts().size() >= 1){
-                         if(price > newProduct.getPartCost()){
-                            //save Product to Memory and delete the old product
-                            Inventory.addProduct(newProduct);
-                        
-                            //Send the user back to the main page
-                            Parent savedParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-                            Scene addPartScene = new Scene(savedParent);
+                //Set values for the product
+                newProduct.setName(ProductName);
+                newProduct.setPrice(price);
+                newProduct.setInStock(inStock);
+                newProduct.setMin(min);
+                newProduct.setMax(max);
 
-                            //Get Stage Information
-                             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                             window.setScene(addPartScene);
-                              window.show();
-                         } else {
-                              Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                              alert.setTitle("Error Adding Product");
-                              alert.setHeaderText("Error");
-                              alert.setContentText("You can't add a product where the cost of the parts cost more!");
-                              alert.showAndWait();
-                         }
-            } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                     alert.setTitle("Error Adding Product");
-                     alert.setHeaderText("Error");
-                     alert.setContentText("You can't add a product without a part!");
-                     alert.showAndWait();
-                     
+                //Create a new Array list and get parts from the associatedParts table
+                ArrayList<Part> parts = new ArrayList<>();
+                parts.addAll(associatedPartsTable.getItems());
+                newProduct.addAssociatedParts(parts);
+
+                if (newProduct.getAssociatedParts().size() >= 1) {
+                    if (price > newProduct.getPartCost()) {
+                        //save Product to Memory and delete the old product
+                        Inventory.addProduct(newProduct);
+
+                        //Send the user back to the main page
+                        Parent savedParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+                        Scene addPartScene = new Scene(savedParent);
+
+                        //Get Stage Information
+                        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        window.setScene(addPartScene);
+                        window.show();
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Error Adding Product");
+                        alert.setHeaderText("Error");
+                        alert.setContentText("You can't add a product where the cost of the parts cost more!");
+                        alert.showAndWait();
+                    }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Error Adding Product");
+                    alert.setHeaderText("Error");
+                    alert.setContentText("You can't add a product without a part!");
+                    alert.showAndWait();
+
+                }
+
             }
-    
-               
-               
-            
-        }
-            } catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("There was an Error adding a Part.");
             alert.setHeaderText("Error");
             alert.setContentText("The form contains blank fields. Please correct and try again.");
             alert.showAndWait();
         }
-    
-            
+
     }
 
     public void addPartToAssociatedParts(ActionEvent event) throws IOException {
@@ -194,7 +189,6 @@ public class AddProductViewController implements Initializable {
         alert.setHeaderText("Are you sure you want to cancel?");
         Optional<ButtonType> result = alert.showAndWait();
 
-        //Delete the part if yes, if no, close the box.
         if (result.get() == ButtonType.OK) {
             Parent cancelParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
             Scene addPartScene = new Scene(cancelParent);
@@ -213,6 +207,7 @@ public class AddProductViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Bind the data to the columns
         partNameColumn.setCellValueFactory(cellData -> cellData.getValue().getName());
         partIdColumn.setCellValueFactory(cellData -> cellData.getValue().getPartID().asObject());
         partPriceColumn.setCellValueFactory(cellData -> cellData.getValue().getPrice().asObject());
@@ -224,7 +219,8 @@ public class AddProductViewController implements Initializable {
         associatedPartsInStockColumn.setCellValueFactory(cellData -> cellData.getValue().getInStock().asObject());
 
         partTable.setItems(Inventory.getAllParts());
-
+        
+        //enablesearch
         enablePartSearch();
 
     }
@@ -242,7 +238,7 @@ public class AddProductViewController implements Initializable {
                     return true;
                 }
 
-                // Compare first name and last name of every person with filter text.
+                // Compare first name or ID with the filter text
                 String lowerCaseFilter = newValue.toLowerCase();
 
                 if (part.getName().get().toLowerCase().contains(lowerCaseFilter)) {

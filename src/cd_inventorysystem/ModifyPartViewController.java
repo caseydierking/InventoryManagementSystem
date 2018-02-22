@@ -62,10 +62,8 @@ public class ModifyPartViewController implements Initializable {
     private boolean isOutsourced;
     private String exceptionMessage = new String();
 
- 
     @FXML
     private Part selectedPart;
-    
 
     //This method initializes the part for editing
     public void initData(Part p) {
@@ -81,31 +79,29 @@ public class ModifyPartViewController implements Initializable {
         max.setText(selectedPart.getMax().getValue().toString());
 
         if (selectedPart instanceof Inhouse) {
-            
+
             //Cast Inhouse and Set correct labels for Inhouse Part
             Inhouse TempIn = (Inhouse) selectedPart;
-          
+
             machineId.setText(TempIn.getMachineId().getValue().toString());
             toggleLocationLabel.setText("MachineID");
             inHouseButton.setSelected(true);
-            
-            
+
         } else {
-           
+
             //Set correct labels for Outsourced Part
             Outsourced TempOut = (Outsourced) selectedPart;
 
             machineId.setText(TempOut.getCompanyName().getValue());
             toggleLocationLabel.setText("Company Name");
             outsourcedButton.setSelected(true);
- 
+
         }
 
     }
-    
-      public void saveModifiedPart(ActionEvent event) throws IOException {
 
-        
+    public void saveModifiedPart(ActionEvent event) throws IOException {
+
         String partName = name.getText();
         String partPrice = price.getText();
         String partInstock = inStock.getText();
@@ -113,27 +109,25 @@ public class ModifyPartViewController implements Initializable {
         String partMax = max.getText();
         String partMachineId = machineId.getText();
         String partCompanyName = machineId.getText();
-        
-        
-            try {
-                exceptionMessage = Part.isPartValid(partName,Double.parseDouble(partPrice),Integer.parseInt(partInstock),Integer.parseInt(partMin), Integer.parseInt(partMax), exceptionMessage);
-                if (exceptionMessage.length() > 0) {
-                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                     alert.setTitle("Error Adding Part");
-                     alert.setHeaderText("Error");
-                     alert.setContentText(exceptionMessage);
-                     alert.showAndWait();
-                     exceptionMessage = "";
+
+        try {
+            exceptionMessage = Part.isPartValid(partName, Double.parseDouble(partPrice), Integer.parseInt(partInstock), Integer.parseInt(partMin), Integer.parseInt(partMax), exceptionMessage);
+            if (exceptionMessage.length() > 0) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error Adding Part");
+                alert.setHeaderText("Error");
+                alert.setContentText(exceptionMessage);
+                alert.showAndWait();
+                exceptionMessage = "";
             } else {
                 if (isOutsourced == false) {
-                    
-                    
-                    Inhouse newPart = new Inhouse(Integer.parseInt(partMachineId),partName,Double.parseDouble(partPrice),Integer.parseInt(partInstock),Integer.parseInt(partMin),Integer.parseInt(partMax));
+
+                    Inhouse newPart = new Inhouse(Integer.parseInt(partMachineId), partName, Double.parseDouble(partPrice), Integer.parseInt(partInstock), Integer.parseInt(partMin), Integer.parseInt(partMax));
                     Inventory.getAllParts().add(newPart);
                     Inventory.removePart(selectedPart);
-                    
+
                 } else {
-                    Outsourced newPart = new Outsourced(partCompanyName,partName,Double.parseDouble(partPrice),Integer.parseInt(partInstock),Integer.parseInt(partMin), Integer.parseInt(partMax));
+                    Outsourced newPart = new Outsourced(partCompanyName, partName, Double.parseDouble(partPrice), Integer.parseInt(partInstock), Integer.parseInt(partMin), Integer.parseInt(partMax));
                     Inventory.getAllParts().add(newPart);
                     Inventory.removePart(selectedPart);
 
@@ -144,9 +138,9 @@ public class ModifyPartViewController implements Initializable {
                 Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 window.setScene(scene);
                 window.show();
-            
-        }
-            } catch (NumberFormatException e) {
+
+            }
+        } catch (NumberFormatException e) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("There was an Error adding a Part.");
             alert.setHeaderText("Error");
@@ -155,53 +149,43 @@ public class ModifyPartViewController implements Initializable {
         }
     }
 
-        
-
     /**
      * This code handles the logic for when the "add Part" button is pushed.
      *
      */
     public void radioButtonChanged() {
-        
 
-        if(this.partManufactureLocationGroup.getSelectedToggle().equals(this.inHouseButton)) {
-            
+        if (this.partManufactureLocationGroup.getSelectedToggle().equals(this.inHouseButton)) {
+
             isOutsourced = false;
             toggleLocationLabel.setText("MachineID");
-      
 
         } else {
-            
-             isOutsourced = true;
+
+            isOutsourced = true;
             toggleLocationLabel.setText("Company Name");
-       
 
         }
     }
 
     public void cancelButtonPushed(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirm Deletion");
-            alert.setHeaderText("Are you sure you want to cancel?");
-            Optional<ButtonType> result = alert.showAndWait();
-            
-            //Delete the part if yes, if no, close the box.
-            if (result.get() == ButtonType.OK) {
-                Parent cancelParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-                Scene addPartScene = new Scene(cancelParent);
+        alert.setTitle("Confirm Deletion");
+        alert.setHeaderText("Are you sure you want to cancel?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == ButtonType.OK) {
+            Parent cancelParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+            Scene addPartScene = new Scene(cancelParent);
 
             //Get Stage Information
-                 Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                 window.setScene(addPartScene);
-                    window.show();
-            } else {
-                alert.close();
-            }
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(addPartScene);
+            window.show();
+        } else {
+            alert.close();
+        }
     }
-    
-    
-     
-    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -210,11 +194,6 @@ public class ModifyPartViewController implements Initializable {
         partManufactureLocationGroup = new ToggleGroup();
         this.inHouseButton.setToggleGroup(partManufactureLocationGroup);
         this.outsourcedButton.setToggleGroup(partManufactureLocationGroup);
-        
-         
-      
-        
-       
 
     }
 

@@ -10,15 +10,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ObservableList;
 
 /**
  *
  * @author caseydierking
  */
 public class Product {
-    
-    
+
     //Declare the variables in a Product
     private static AtomicInteger nextID = new AtomicInteger(0);
 
@@ -30,12 +28,7 @@ public class Product {
     private SimpleIntegerProperty max;
     private ArrayList<Part> associatedParts;
 
-    
-    
     //Constructor for initializing the product
-  
-    
-    
     public Product(String name, double price, int inStock, int min, int max, ArrayList<Part> associatedParts) {
         this.name = new SimpleStringProperty(name);
         this.productID = new SimpleIntegerProperty(nextID.incrementAndGet());
@@ -45,10 +38,10 @@ public class Product {
         this.max = new SimpleIntegerProperty(max);
         this.associatedParts = new ArrayList<>(associatedParts);
     }
-    
+
     public Product() {
         this.name = new SimpleStringProperty("");
-        this.productID= new SimpleIntegerProperty(nextID.incrementAndGet());
+        this.productID = new SimpleIntegerProperty(nextID.incrementAndGet());
         this.price = new SimpleDoubleProperty(0);
         this.inStock = new SimpleIntegerProperty(0);
         this.min = new SimpleIntegerProperty(0);
@@ -76,7 +69,6 @@ public class Product {
     public SimpleDoubleProperty getPrice() {
         return price;
     }
-    
 
     public void setPrice(double price) {
         this.price = new SimpleDoubleProperty(price);
@@ -105,35 +97,31 @@ public class Product {
     public void setMax(int max) {
         this.max = new SimpleIntegerProperty(max);
     }
-    
-    
-    public void addAssociatedPart(Part p){
+
+    public void addAssociatedPart(Part p) {
         associatedParts.add(p);
-        
+
     }
-    
- 
-    
-    public boolean removeAssociatedPart(Part p){
+
+    public boolean removeAssociatedPart(Part p) {
         return associatedParts.remove(p);
-        
+
     }
-    
-    public Part lookupAssociatedPart(int p){
-       return associatedParts.get(p);
-        
+
+    public Part lookupAssociatedPart(int p) {
+        return associatedParts.get(p);
+
     }
 
     public void addAssociatedParts(ArrayList<Part> associatedParts) {
-        
-        this.associatedParts = associatedParts;    
+
+        this.associatedParts = associatedParts;
     }
 
     public ArrayList<Part> getAssociatedParts() {
         return associatedParts;
     }
 
-   
     public static String isProductValid(String name, double price, int inStock, int min, int max, String errorMessage) {
         if (name == null) {
             errorMessage += ("Please check the Part Name Field.\n");
@@ -141,7 +129,7 @@ public class Product {
         if (price < 1) {
             errorMessage += ("The price must be greater than 0.\n");
         }
-        
+
         if (min > max) {
             errorMessage += ("Inventory Min must be less than Max.\n");
         }
@@ -153,23 +141,24 @@ public class Product {
         }
         return errorMessage;
     }
-    
+
     /**
-     * Return the total price of all the components inside the Associated Parts collection.
-     * @return 
+     * Return the total price of all the components inside the Associated Parts
+     * collection.
+     *
+     * @return
      */
     public double getPartCost() {
 
         /* Initialize the internal variable */
-     double totalPartCost = 0;
+        double totalPartCost = 0;
 
         /* Loop thru all items in the associated parts collection */
-       for (Part part : associatedParts)
-           totalPartCost = totalPartCost +  part.getPrice().get();
-      
-       
-        return totalPartCost;
-   }
+        for (Part part : associatedParts) {
+            totalPartCost = totalPartCost + part.getPrice().get();
+        }
 
-    
+        return totalPartCost;
+    }
+
 }

@@ -5,17 +5,14 @@
  */
 package cd_inventorysystem.Models;
 
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
  * @author caseydierking
  */
 public class Inhouse extends Part {
-    
-    
+
     private SimpleIntegerProperty machineId;
 
     public Inhouse(int machineId, String name, double price, int inStock, int min, int max) {
@@ -23,12 +20,6 @@ public class Inhouse extends Part {
         this.machineId = new SimpleIntegerProperty(machineId);
     }
 
-    
-    
-    
-    
-    
-    
     /**
      * @return the machineId
      */
@@ -43,7 +34,4 @@ public class Inhouse extends Part {
         this.machineId = new SimpleIntegerProperty(machineId);
     }
 
-    
-    
-    
 }

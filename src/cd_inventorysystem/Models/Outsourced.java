@@ -12,7 +12,7 @@ import javafx.beans.property.SimpleStringProperty;
  * @author caseydierking
  */
 public class Outsourced extends Part {
-    
+
     private SimpleStringProperty companyName;
 
     public Outsourced(String companyName, String name, double price, int inStock, int min, int max) {
@@ -33,7 +33,5 @@ public class Outsourced extends Part {
     public void setCompanyName(String companyName) {
         this.companyName = new SimpleStringProperty(companyName);
     }
-    
-    
-    
+
 }
