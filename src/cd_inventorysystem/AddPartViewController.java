@@ -11,6 +11,7 @@ import cd_inventorysystem.Models.Outsourced;
 import cd_inventorysystem.Models.Part;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -73,14 +75,29 @@ public class AddPartViewController implements Initializable {
      *
      */
     public void cancelButtonPushed(ActionEvent event) throws IOException {
-        Parent cancelParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        Scene addPartScene = new Scene(cancelParent);
+       
+       
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm Deletion");
+            alert.setHeaderText("Are you sure you want to cancel?");
+            Optional<ButtonType> result = alert.showAndWait();
+            
+            //Delete the part if yes, if no, close the box.
+            if (result.get() == ButtonType.OK) {
+                Parent cancelParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+                Scene addPartScene = new Scene(cancelParent);
 
-        //Get Stage Information
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(addPartScene);
-        window.show();
-    }
+            //Get Stage Information
+                 Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                 window.setScene(addPartScene);
+                    window.show();
+            } else {
+                alert.close();
+            }
+        }
+        
+        
+    
 
     /**
      * This code handles the logic for when the "Save" button is pushed.

@@ -32,10 +32,10 @@ public class CD_InventorySystem extends Application {
         stage.setScene(scene);
         stage.show();
         
-        Part samplePart = new Inhouse(0,"Wheel",1,50,1,1);
-        Part anotherPart = new Inhouse(34,"SteeringWheel",1,50,1,1);
-        Part thirdPart = new Inhouse(55,"Door",1,50,1,1);
-        Part fourthPart = new Outsourced("CompanyInc","Paint",1,50,1,1);
+        Part samplePart = new Inhouse(0,"Wheel",20,25,1,1);
+        Part anotherPart = new Inhouse(34,"SteeringWheel",100,35,1,1);
+        Part thirdPart = new Inhouse(55,"Door",19,5,10,1);
+        Part fourthPart = new Outsourced("CompanyInc","Paint",15,5,1,1);
 
         Inventory.getAllParts().add(samplePart);
         Inventory.getAllParts().add(anotherPart);

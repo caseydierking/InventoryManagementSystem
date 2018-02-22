@@ -76,6 +76,7 @@ public class Product {
     public SimpleDoubleProperty getPrice() {
         return price;
     }
+    
 
     public void setPrice(double price) {
         this.price = new SimpleDoubleProperty(price);
@@ -153,6 +154,22 @@ public class Product {
         return errorMessage;
     }
     
-    
+    /**
+     * Return the total price of all the components inside the Associated Parts collection.
+     * @return 
+     */
+    public double getPartCost() {
+
+        /* Initialize the internal variable */
+     double totalPartCost = 0;
+
+        /* Loop thru all items in the associated parts collection */
+       for (Part part : associatedParts)
+           totalPartCost = totalPartCost +  part.getPrice().get();
+      
+       
+        return totalPartCost;
+   }
+
     
 }

@@ -153,18 +153,15 @@ public class FXMLDocumentController implements Initializable {
         Product product = productTable.getSelectionModel().getSelectedItem();
         
         //Test to see if the part is valid, if so create an alert confirming they want to delete the part.
-        if (product != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirm Deletion");
-            alert.setHeaderText("Are you sure you want to delete " + product.getName().get() + "?");
+        if (product.getAssociatedParts().size() >= 1) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("You can't delete a Product that has a part assigned to it");
             Optional<ButtonType> result = alert.showAndWait();
-            
-            //Delete the part if yes, if no, close the box.
-            if (result.get() == ButtonType.OK) {
-               removeProduct(product);
-            } else {
-                alert.close();
-            }
+          
+        } else {
+            removeProduct(product);
+          
         }
      
     }

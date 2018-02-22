@@ -133,19 +133,26 @@ public class ModifyProductViewController implements Initializable {
                   newProduct.addAssociatedParts(parts);
 
                      if(newProduct.getAssociatedParts().size() >= 1){
-                         
-                        //save Product to Memory and delete the old product
-                        Inventory.addProduct(newProduct);
-                        Inventory.removeProduct(selectedProduct);
+                         if(price > newProduct.getPartCost()){
+                            //save Product to Memory and delete the old product
+                            Inventory.addProduct(newProduct);
+                             Inventory.removeProduct(selectedProduct);
                         
-                         //Send the user back to the main page
-                        Parent savedParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-                         Scene addPartScene = new Scene(savedParent);
+                            //Send the user back to the main page
+                            Parent savedParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+                            Scene addPartScene = new Scene(savedParent);
 
-                         //Get Stage Information
-                         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                         window.setScene(addPartScene);
-                         window.show();
+                            //Get Stage Information
+                             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                             window.setScene(addPartScene);
+                              window.show();
+                         } else {
+                              Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                              alert.setTitle("Error Adding Product");
+                              alert.setHeaderText("Error");
+                              alert.setContentText("You can't add a product where the cost of the parts cost more!");
+                              alert.showAndWait();
+                         }
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                      alert.setTitle("Error Adding Product");
@@ -202,13 +209,23 @@ public class ModifyProductViewController implements Initializable {
     }
 
     public void  cancelButtonPushed(ActionEvent event) throws IOException{
-        Parent cancelParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        Scene addPartScene = new Scene(cancelParent);
-        
-        //Get Stage Information
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        window.setScene(addPartScene);
-        window.show();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm Deletion");
+            alert.setHeaderText("Are you sure you want to cancel?");
+            Optional<ButtonType> result = alert.showAndWait();
+            
+            //Delete the part if yes, if no, close the box.
+            if (result.get() == ButtonType.OK) {
+                Parent cancelParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+                Scene addPartScene = new Scene(cancelParent);
+
+            //Get Stage Information
+                 Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                 window.setScene(addPartScene);
+                    window.show();
+            } else {
+                alert.close();
+            }
     }
     
     /**
