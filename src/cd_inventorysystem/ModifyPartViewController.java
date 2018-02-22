@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -66,7 +67,9 @@ public class ModifyPartViewController implements Initializable {
     private boolean isInhouse;
 
     private boolean outsourced;
-    
+    private boolean isOutsourced;
+    private String exceptionMessage = new String();
+
  
     @FXML
     private Part selectedPart;
@@ -89,94 +92,152 @@ public class ModifyPartViewController implements Initializable {
             
             //Cast Inhouse and Set correct labels for Inhouse Part
             Inhouse TempIn = (Inhouse) selectedPart;
-            machineIdLabel.setVisible(true);
-            companyNameLabel.setVisible(false);
-            companyName.setVisible(false);
+           // machineIdLabel.setVisible(true);
+            //companyNameLabel.setVisible(false);
+            //companyName.setVisible(false);
             machineId.setText(TempIn.getMachineId().getValue().toString());
-            machineId.setEditable(true);
-            machineIdLabel.setText("Machine Id");
-            isInhouse = true;
-            outsourced = false;
+            toggleLocationLabel.setText("MachineID");
+            //machineId.setEditable(true);
+            //machineIdLabel.setText("Machine Id");
+            //isInhouse = true;
+            //outsourced = false;
             inHouseButton.setSelected(true);
+            
             
         } else {
            
             //Set correct labels for Outsourced Part
             Outsourced TempOut = (Outsourced) selectedPart;
-            machineIdLabel.setVisible(false);
-            machineId.setVisible(false);
-            companyNameLabel.setVisible(true);
-            companyName.setText(TempOut.getCompanyName().getValue());
-            companyNameLabel.setText("Company Name");
-            isInhouse = false;
-            outsourced = true;
+           // machineIdLabel.setVisible(false);
+            //machineId.setVisible(false);
+            //companyNameLabel.setVisible(true);
+            machineId.setText(TempOut.getCompanyName().getValue());
+            toggleLocationLabel.setText("Company Name");
             outsourcedButton.setSelected(true);
+            //companyNameLabel.setText("Company Name");
+           // isInhouse = false;
+            //outsourced = true;
+           // outsourcedButton.setSelected(true);
             
             //Populate TextFields for editing with current data
         }
 
     }
+    
+      public void saveModifiedPart(ActionEvent event) throws IOException {
 
-    public void saveModifiedPart(ActionEvent event) throws IOException {
-
-        //Logic to see if part is part of Inhouse Group
-        if (isInhouse && !outsourced) {
-            //Cast selectedPart to Inhouse
-            Inhouse TempIn = (Inhouse) selectedPart;
-
-            //Setup Variables for saving
-            String tempPartName = name.getText();
-            double tempPrice = Double.parseDouble(price.getText());
-            int tempInstock = Integer.parseInt(inStock.getText());
-            int tempMin = Integer.parseInt(min.getText());
-            int tempMax = Integer.parseInt(max.getText());
-            int tempMachineId = Integer.parseInt(machineId.getText().trim());
-
-            
-           
-            //Update the part
-            TempIn.setName(tempPartName);
-            TempIn.setPrice(tempPrice);
-            TempIn.setInStock(tempInstock);
-            TempIn.setMin(tempMin);
-            TempIn.setMax(tempMax);
-            TempIn.setMachineId(tempMachineId);
-
-            
-        } 
+        
+        String partName = name.getText();
+        String partPrice = price.getText();
+        String partInstock = inStock.getText();
+        String partMin = min.getText();
+        String partMax = max.getText();
+        String partMachineId = machineId.getText();
+        String partCompanyName = machineId.getText();
         
         
-        if(!isInhouse && outsourced){
+            try {
+                exceptionMessage = Part.isPartValid(partName,Double.parseDouble(partPrice),Integer.parseInt(partInstock),Integer.parseInt(partMin), Integer.parseInt(partMax), exceptionMessage);
+                if (exceptionMessage.length() > 0) {
+                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                     alert.setTitle("Error Adding Part");
+                     alert.setHeaderText("Error");
+                     alert.setContentText(exceptionMessage);
+                     alert.showAndWait();
+                     exceptionMessage = "";
+            } else {
+                if (isOutsourced == false) {
+                    
+                    
+                    Inhouse newPart = new Inhouse(Integer.parseInt(partMachineId),partName,Double.parseDouble(partPrice),Integer.parseInt(partInstock),Integer.parseInt(partMin),Integer.parseInt(partMax));
+                    Inventory.getAllParts().add(newPart);
+                    Inventory.removePart(selectedPart);
+                    
+                } else {
+                    Outsourced newPart = new Outsourced(partCompanyName,partName,Double.parseDouble(partPrice),Integer.parseInt(partInstock),Integer.parseInt(partMin), Integer.parseInt(partMax));
+                    Inventory.getAllParts().add(newPart);
+                    Inventory.removePart(selectedPart);
 
-            //Cast selectedPart to Outsourced
-            
-            //Setup Variables for saving
-            String tempPartName = name.getText();
-            double tempPrice = Double.parseDouble(price.getText());
-            int tempInstock = Integer.parseInt(inStock.getText());
-            int tempMin = Integer.parseInt(min.getText());
-            int tempMax = Integer.parseInt(max.getText());
-            String tempCompanyName = companyName.getText();
+                }
 
-            //Update the part
-            
-           Part modifiedPart = new Outsourced(tempCompanyName,tempPartName,tempPrice,tempInstock,tempMin,tempMax);
-           Inventory.getAllParts().add(modifiedPart);
-           Inventory.removePart(selectedPart);
-
-            
+                Parent partsSave = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+                Scene scene = new Scene(partsSave);
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                window.setScene(scene);
+                window.show();
             
         }
-        
-        //Send the user back to the main page
-        Parent savedParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        Scene addPartScene = new Scene(savedParent);
-
-        //Get Stage Information
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(addPartScene);
-        window.show();
+            } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("There was an Error adding a Part.");
+            alert.setHeaderText("Error");
+            alert.setContentText("The form contains blank fields. Please correct and try again.");
+            alert.showAndWait();
+        }
     }
+
+        
+
+//    public void saveModifiedPart(ActionEvent event) throws IOException {
+//
+//        //Logic to see if part is part of Inhouse Group
+//        if (isInhouse && !outsourced) {
+//            //Cast selectedPart to Inhouse
+//            Inhouse TempIn = (Inhouse) selectedPart;
+//
+//            //Setup Variables for saving
+//            String tempPartName = name.getText();
+//            double tempPrice = Double.parseDouble(price.getText());
+//            int tempInstock = Integer.parseInt(inStock.getText());
+//            int tempMin = Integer.parseInt(min.getText());
+//            int tempMax = Integer.parseInt(max.getText());
+//            int tempMachineId = Integer.parseInt(machineId.getText().trim());
+//
+//            
+//           
+//            //Update the part
+//            TempIn.setName(tempPartName);
+//            TempIn.setPrice(tempPrice);
+//            TempIn.setInStock(tempInstock);
+//            TempIn.setMin(tempMin);
+//            TempIn.setMax(tempMax);
+//            TempIn.setMachineId(tempMachineId);
+//
+//            
+//        } 
+//        
+//        
+//        if(!isInhouse && outsourced){
+//
+//            //Cast selectedPart to Outsourced
+//            
+//            //Setup Variables for saving
+//            String tempPartName = name.getText();
+//            double tempPrice = Double.parseDouble(price.getText());
+//            int tempInstock = Integer.parseInt(inStock.getText());
+//            int tempMin = Integer.parseInt(min.getText());
+//            int tempMax = Integer.parseInt(max.getText());
+//            String tempCompanyName = companyName.getText();
+//
+//            //Update the part
+//            
+//           Part modifiedPart = new Outsourced(tempCompanyName,tempPartName,tempPrice,tempInstock,tempMin,tempMax);
+//           Inventory.getAllParts().add(modifiedPart);
+//           Inventory.removePart(selectedPart);
+//
+//            
+//            
+//        }
+//        
+//        //Send the user back to the main page
+//        Parent savedParent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+//        Scene addPartScene = new Scene(savedParent);
+//
+//        //Get Stage Information
+//        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        window.setScene(addPartScene);
+//        window.show();
+//    }
 
     /**
      * This code handles the logic for when the "add Part" button is pushed.
@@ -186,26 +247,32 @@ public class ModifyPartViewController implements Initializable {
         
 
         if(this.partManufactureLocationGroup.getSelectedToggle().equals(this.inHouseButton)) {
-              //Cast Inhouse and Set correct labels for Inhouse Part
-
-            machineIdLabel.setVisible(true);
-            machineId.setVisible(true);
-            machineId.setEditable(true);
-            companyNameLabel.setVisible(false);
-            companyName.setVisible(false);
-;            //machineId.setText(TempIn.getMachineId().getValue().toString());
             
-            isInhouse = true;
-            outsourced = false;
+            isOutsourced = false;
+            toggleLocationLabel.setText("MachineID");
+//              //Cast Inhouse and Set correct labels for Inhouse Part
+//
+//            machineIdLabel.setVisible(true);
+//            machineId.setVisible(true);
+//            machineId.setEditable(true);
+//            companyNameLabel.setVisible(false);
+//            companyName.setVisible(false);
+//;            //machineId.setText(TempIn.getMachineId().getValue().toString());
+//            
+//            isInhouse = true;
+//            outsourced = false;
 
         } else {
-            machineIdLabel.setVisible(false);
-            machineId.setVisible(false);
-            companyNameLabel.setVisible(true);
-            companyName.setVisible(true);
             
-          isInhouse = false;
-          outsourced = true;
+             isOutsourced = true;
+            toggleLocationLabel.setText("Company Name");
+//            machineIdLabel.setVisible(false);
+//            machineId.setVisible(false);
+//            companyNameLabel.setVisible(true);
+//            companyName.setVisible(true);
+//            
+//          isInhouse = false;
+//          outsourced = true;
 
         }
     }
@@ -232,7 +299,7 @@ public class ModifyPartViewController implements Initializable {
         this.inHouseButton.setToggleGroup(partManufactureLocationGroup);
         this.outsourcedButton.setToggleGroup(partManufactureLocationGroup);
         
-
+         
         //This makes sure that both panes aren't showing at run time and autoselects Inhouse to be the default
       
         

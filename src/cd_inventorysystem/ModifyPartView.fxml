@@ -26,7 +26,7 @@
                   <Label text="Price/Cost" />
                   <Label text="Min" />
                   <Label text="Max" />
-                  <Label fx:id="machineIdLabel" prefHeight="17.0" prefWidth="103.0" text="Machine Id" />
+                  <Label fx:id="toggleLocationLabel" prefHeight="17.0" prefWidth="103.0" text="Machine Id" />
                </children>
             </VBox>
             <VBox alignment="TOP_CENTER" layoutX="148.0" maxWidth="158.0" prefHeight="269.0" prefWidth="128.0" spacing="13.0">
@@ -37,7 +37,7 @@
                   <TextField fx:id="price" promptText="Price/Cost" />
                   <TextField fx:id="min" maxWidth="138.0" minWidth="-Infinity" prefHeight="27.0" prefWidth="138.0" promptText="Min" />
                   <TextField fx:id="max" maxWidth="138.0" minWidth="-Infinity" prefHeight="27.0" prefWidth="138.0" promptText="Max" />
-                  <TextField fx:id="machineId" prefHeight="27.0" prefWidth="142.0" promptText="Machine Id" />
+                  <TextField fx:id="machineId" prefHeight="27.0" prefWidth="142.0" />
                </children>
             </VBox>
             <VBox layoutX="277.0" layoutY="166.0" prefHeight="80.0" prefWidth="100.0" />
@@ -47,11 +47,5 @@
       <Button layoutX="376.0" layoutY="427.0" mnemonicParsing="false" onAction="#cancelButtonPushed" prefHeight="31.0" prefWidth="90.0" text="Cancel" />
       <RadioButton fx:id="inHouseButton" layoutX="201.0" layoutY="37.0" mnemonicParsing="false" onAction="#radioButtonChanged" text="Inhouse" />
       <RadioButton fx:id="outsourcedButton" layoutX="327.0" layoutY="37.0" mnemonicParsing="false" onAction="#radioButtonChanged" text="Outsourced" />
-      <AnchorPane layoutX="71.0" layoutY="353.0" prefHeight="49.0" prefWidth="300.0">
-         <children>
-            <Label fx:id="companyNameLabel" layoutX="13.0" layoutY="21.0" prefHeight="17.0" prefWidth="103.0" text="Company Name" />
-            <TextField fx:id="companyName" layoutX="131.0" layoutY="11.0" prefHeight="27.0" prefWidth="138.0" promptText="Company Name" />
-         </children>
-      </AnchorPane>
    </children>
 </AnchorPane>
