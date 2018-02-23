@@ -109,6 +109,8 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public void modifyProductButtonPushed(ActionEvent event) throws IOException {
+      
+        
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("ModifyProductView.fxml"));
         Parent modifyProductViewParent = loader.load();

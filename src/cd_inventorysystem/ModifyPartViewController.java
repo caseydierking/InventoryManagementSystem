@@ -73,7 +73,7 @@ public class ModifyPartViewController implements Initializable {
 
         name.setText(selectedPart.getName().getValue());
         partIDLabel.setText(selectedPart.getPartID().getValue().toString());
-        price.setText(selectedPart.getPrice().toString());
+        price.setText(selectedPart.getPrice().getValue().toString());
         inStock.setText(selectedPart.getInStock().getValue().toString());
         min.setText(selectedPart.getMin().getValue().toString());
         max.setText(selectedPart.getMax().getValue().toString());

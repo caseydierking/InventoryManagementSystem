@@ -59,9 +59,7 @@ public class AddPartViewController implements Initializable {
     private TextField min;
     @FXML
     private TextField max;
-    private TextField machineId;
-    @FXML
-    private Pane inhousePane;
+    @FXML private TextField manuLocation;
  
     private boolean isOutsourced;
     
@@ -113,8 +111,9 @@ public class AddPartViewController implements Initializable {
         String partInstock = inStock.getText();
         String partMin = min.getText();
         String partMax = max.getText();
-        String partMachineId = machineId.getText();
-        String partCompanyName = machineId.getText();
+        String partLocation = manuLocation.getText();
+      //  String partMachineId = machineId.getText();
+      //  String partCompanyName = machineId.getText();
         
             //Exception Handling for adding a new part and then if meets criteria, it adds its.
             try {
@@ -128,11 +127,14 @@ public class AddPartViewController implements Initializable {
                      exceptionMessage = "";
             } else {
                 if (isOutsourced == false) {
-                    Inhouse newPart = new Inhouse(Integer.parseInt(partMachineId),partName,Double.parseDouble(partPrice),Integer.parseInt(partInstock),Integer.parseInt(partMin),Integer.parseInt(partMax));
+                   
+
+                    Inhouse newPart = new Inhouse(Integer.parseInt(partLocation),partName,Double.parseDouble(partPrice),Integer.parseInt(partInstock),Integer.parseInt(partMin),Integer.parseInt(partMax));
                     Inventory.getAllParts().add(newPart);
                     
                 } else {
-                    Outsourced newPart = new Outsourced(partCompanyName,partName,Double.parseDouble(partPrice),Integer.parseInt(partInstock),Integer.parseInt(partMin), Integer.parseInt(partMax));
+                    
+                    Outsourced newPart = new Outsourced(partLocation,partName,Double.parseDouble(partPrice),Integer.parseInt(partInstock),Integer.parseInt(partMin), Integer.parseInt(partMax));
                     Inventory.getAllParts().add(newPart);
                 }
 
@@ -183,7 +185,6 @@ public class AddPartViewController implements Initializable {
 
         //This makes sure that both panes aren't showing at run time and autoselects Inhouse to be the default
         inHouseButton.setSelected(true);
-        inhousePane.setVisible(true);
         isOutsourced = false;
      
     }
