@@ -26,7 +26,7 @@
                   <Label text="Price/Cost" />
                   <Label text="Min" />
                   <Label text="Max" />
-                  <Label prefHeight="17.0" prefWidth="103.0" text="Machine Id" />
+                  <Label fx:id="toggleLocationLabel" prefHeight="17.0" prefWidth="103.0" text="Machine Id" />
                </children>
             </VBox>
             <VBox alignment="TOP_CENTER" layoutX="148.0" maxWidth="158.0" prefHeight="269.0" prefWidth="128.0" spacing="13.0">
@@ -37,37 +37,9 @@
                   <TextField fx:id="price" promptText="Price/Cost" />
                   <TextField fx:id="min" maxWidth="138.0" minWidth="-Infinity" prefHeight="27.0" prefWidth="138.0" promptText="Min" />
                   <TextField fx:id="max" maxWidth="138.0" minWidth="-Infinity" prefHeight="27.0" prefWidth="138.0" promptText="Max" />
-                  <TextField fx:id="machineId" prefHeight="27.0" prefWidth="58.0" promptText="Company Name" />
+                  <TextField fx:id="manuLocation" prefHeight="27.0" prefWidth="58.0" />
                </children>
             </VBox>
-            <VBox layoutX="277.0" layoutY="166.0" prefHeight="80.0" prefWidth="100.0" />
-         </children>
-      </Pane>
-      <Pane fx:id="outsourcedPane" layoutX="61.0" layoutY="117.0" prefHeight="267.0" prefWidth="391.0">
-         <children>
-            <VBox layoutX="30.0" prefHeight="267.0" prefWidth="108.0" spacing="25.0">
-               <children>
-                  <Label text="ID" />
-                  <Label text="Name" />
-                  <Label text="Inv" />
-                  <Label text="Price/Cost" />
-                  <Label text="Min" />
-                  <Label text="Max" />
-                  <Label prefHeight="17.0" prefWidth="103.0" text="Company Name" />
-               </children>
-            </VBox>
-            <VBox alignment="TOP_CENTER" layoutX="148.0" maxWidth="158.0" prefHeight="269.0" prefWidth="128.0" spacing="13.0">
-               <children>
-                  <Label alignment="TOP_CENTER" style="-fx-border-color: black; -fx-padding: 5px;" text="Auto Gen - Disabled" textAlignment="CENTER" />
-                  <TextField fx:id="nameOutsourced" promptText="Part Name" />
-                  <TextField fx:id="inStockOutsourced" promptText="Inv" />
-                  <TextField fx:id="priceOutsourced" promptText="Price/Cost" />
-                  <TextField fx:id="minOutsourced" maxWidth="138.0" minWidth="-Infinity" prefHeight="27.0" prefWidth="138.0" promptText="Min" />
-                  <TextField fx:id="maxOutsourced" maxWidth="138.0" minWidth="-Infinity" prefHeight="27.0" prefWidth="138.0" promptText="Max" />
-                  <TextField fx:id="companyName" prefHeight="27.0" prefWidth="58.0" promptText="Company Name" />
-               </children>
-            </VBox>
-            <VBox layoutX="277.0" layoutY="166.0" prefHeight="80.0" prefWidth="100.0" />
          </children>
       </Pane>
       <Button layoutX="268.0" layoutY="427.0" mnemonicParsing="false" onAction="#saveButtonPushed" prefHeight="31.0" prefWidth="90.0" text="Save Part" />

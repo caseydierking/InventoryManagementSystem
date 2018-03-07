@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cd_inventorysystem.AddProductViewController">
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cd_inventorysystem.ModifyProductViewController">
    <children>
       <VBox layoutX="45.0" layoutY="99.0" prefHeight="291.0" prefWidth="327.0">
          <children>
@@ -27,7 +27,7 @@
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="60.0" prefWidth="179.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="40.0" prefWidth="164.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="Auto Gen - Disabled" />
+                        <Label fx:id="productIDLabel" alignment="CENTER" prefHeight="40.0" prefWidth="164.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="Auto Gen - Disabled" />
                      </children>
                   </VBox>
                </children>
@@ -45,7 +45,7 @@
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="54.0" prefWidth="166.0">
                      <children>
-                        <TextField prefHeight="40.0" prefWidth="167.0" />
+                        <TextField fx:id="productName" prefHeight="40.0" prefWidth="167.0" />
                      </children>
                   </VBox>
                </children>
@@ -63,7 +63,7 @@
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="54.0" prefWidth="81.0">
                      <children>
-                        <TextField prefHeight="40.0" prefWidth="65.0" />
+                        <TextField fx:id="productInStock" prefHeight="40.0" prefWidth="65.0" />
                      </children>
                   </VBox>
                </children>
@@ -81,7 +81,7 @@
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="54.0" prefWidth="81.0">
                      <children>
-                        <TextField prefHeight="40.0" prefWidth="65.0" />
+                        <TextField fx:id="productPrice" prefHeight="40.0" prefWidth="65.0" />
                      </children>
                   </VBox>
                </children>
@@ -99,7 +99,7 @@
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="54.0" prefWidth="81.0">
                      <children>
-                        <TextField prefHeight="40.0" prefWidth="95.0" />
+                        <TextField fx:id="productMax" prefHeight="40.0" prefWidth="95.0" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="54.0" prefWidth="95.0">
@@ -109,7 +109,7 @@
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="54.0" prefWidth="81.0">
                      <children>
-                        <TextField prefHeight="40.0" prefWidth="106.0" />
+                        <TextField fx:id="productMin" prefHeight="40.0" prefWidth="106.0" />
                      </children>
                   </VBox>
                </children>
@@ -121,26 +121,26 @@
             <Font size="21.0" />
          </font>
       </Label>
-      <TableView layoutX="538.0" layoutY="86.0" prefHeight="164.0" prefWidth="524.0">
+      <TableView fx:id="partTable" layoutX="538.0" layoutY="86.0" prefHeight="164.0" prefWidth="524.0">
          <columns>
-            <TableColumn prefWidth="75.0" text="Part ID" />
-            <TableColumn prefWidth="170.0" text="Part Name" />
-            <TableColumn prefWidth="127.0" text="Inventory Level" />
-            <TableColumn prefWidth="151.0" text="Price Per Unit" />
+            <TableColumn fx:id="partIdColumn" prefWidth="75.0" text="Part ID" />
+            <TableColumn fx:id="partNameColumn" prefWidth="170.0" text="Part Name" />
+            <TableColumn fx:id="partInStockColumn" prefWidth="127.0" text="Inventory Level" />
+            <TableColumn fx:id="partPriceColumn" prefWidth="151.0" text="Price Per Unit" />
          </columns>
       </TableView>
       <Button layoutX="823.0" layoutY="46.0" mnemonicParsing="false" text="Search" />
-      <TextField layoutX="895.0" layoutY="46.0" />
-      <Button layoutX="967.0" layoutY="267.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="95.0" text="Add" />
-      <Button layoutX="967.0" layoutY="527.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="95.0" text="Delete" />
-      <Button layoutX="854.0" layoutY="593.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="95.0" text="Save" />
-      <Button layoutX="967.0" layoutY="593.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="95.0" text="Cancel" />
-      <TableView layoutX="538.0" layoutY="350.0" prefHeight="164.0" prefWidth="524.0">
+      <TextField fx:id="searchTextField" layoutX="895.0" layoutY="46.0" />
+      <Button layoutX="967.0" layoutY="267.0" mnemonicParsing="false" onAction="#addModifiedPartToAssociatedParts" prefHeight="40.0" prefWidth="95.0" text="Add" />
+      <Button layoutX="967.0" layoutY="527.0" mnemonicParsing="false" onAction="#deleteModifiedPartFromTableview" prefHeight="40.0" prefWidth="95.0" text="Delete" />
+      <Button layoutX="854.0" layoutY="593.0" mnemonicParsing="false" onAction="#saveModifiedProductButtonPushed" prefHeight="40.0" prefWidth="95.0" text="Save" />
+      <Button layoutX="967.0" layoutY="593.0" mnemonicParsing="false" onAction="#cancelButtonPushed" prefHeight="40.0" prefWidth="95.0" text="Cancel" />
+      <TableView fx:id="associatedPartsTable" layoutX="538.0" layoutY="350.0" prefHeight="164.0" prefWidth="524.0">
          <columns>
-            <TableColumn prefWidth="75.0" text="Part ID" />
-            <TableColumn prefWidth="170.0" text="Part Name" />
-            <TableColumn prefWidth="127.0" text="Inventory Level" />
-            <TableColumn prefWidth="151.0" text="Price Per Unit" />
+            <TableColumn fx:id="associatedPartsIDColumn" prefWidth="75.0" text="Part ID" />
+            <TableColumn fx:id="associatedPartsNameColumn" prefWidth="170.0" text="Part Name" />
+            <TableColumn fx:id="associatedPartsInStockColumn" prefWidth="127.0" text="Inventory Level" />
+            <TableColumn fx:id="associatedPartsPriceColumn" prefWidth="151.0" text="Price Per Unit" />
          </columns>
       </TableView>
    </children>

@@ -12,12 +12,12 @@ import javafx.beans.property.SimpleStringProperty;
  * @author caseydierking
  */
 public class Outsourced extends Part {
-    
+
     private SimpleStringProperty companyName;
 
-    public Outsourced(SimpleStringProperty companyName, String name, double price, int inStock, int min, int max) {
+    public Outsourced(String companyName, String name, double price, int inStock, int min, int max) {
         super(name, price, inStock, min, max);
-        this.companyName = companyName;
+        this.companyName = new SimpleStringProperty(companyName);
     }
 
     /**
@@ -30,10 +30,8 @@ public class Outsourced extends Part {
     /**
      * @param companyName the companyName to set
      */
-    public void setCompanyName(SimpleStringProperty companyName) {
-        this.companyName = companyName;
+    public void setCompanyName(String companyName) {
+        this.companyName = new SimpleStringProperty(companyName);
     }
-    
-    
-    
+
 }

@@ -12,8 +12,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  * @author caseydierking
  */
 public class Inhouse extends Part {
-    
-    
+
     private SimpleIntegerProperty machineId;
 
     public Inhouse(int machineId, String name, double price, int inStock, int min, int max) {
@@ -31,11 +30,8 @@ public class Inhouse extends Part {
     /**
      * @param machineId the machineId to set
      */
-    public void setMachineId(SimpleIntegerProperty machineId) {
-        this.machineId = machineId;
+    public void setMachineId(int machineId) {
+        this.machineId = new SimpleIntegerProperty(machineId);
     }
 
-    
-    
-    
 }
